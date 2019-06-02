@@ -3,6 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import "./registerServiceWorker";
+// import Rx from 'rxjs/Rx';
 import VueRx from "vue-rx";
 
 Vue.config.productionTip = false;
