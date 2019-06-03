@@ -1,6 +1,6 @@
 import { Observable } from "rxjs";
 
-const fetchMode = process.env.VUE_APP_FETCH_MODE; 
+const fetchMode = process.env.VUE_APP_FETCH_MODE;
 
 export default function request(method, url, qParams, payload) {
   const body =
