@@ -1,7 +1,8 @@
-const baseUrl = "localhost:4000";
-const apiVersion = "v1";
+const baseUrl = process.env.VUE_APP_LEVY_API_URI;
+// const baseUrl = "/";
+const apiVersion = process.env.VUE_APP_LEVY_API_VERSION;
 
-import { request } from "./apiRequester";
+import request from "./apiRequester";
 
 export default {
   signUp(userData) {
