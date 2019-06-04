@@ -1,152 +1,171 @@
 <template>
   <div>
-    <form novalidate class="md-layout jc-center" @submit.prevent="validateUser">
-      <md-card class="md-layout-item md-size-50 md-small-size-100 overflow-x">
-        <md-card-header>
-          <div class="md-title">Sign up</div>
-        </md-card-header>
-
-        <md-card-content>
-          <div class="md-layout md-gutter">
-            <div class="md-layout-item md-small-size-100">
-              <md-field :class="getValidationClass('name')">
-                <label for="name">Name</label>
-                <md-input
-                  name="name"
-                  id="name"
-                  autocomplete="given-name"
-                  v-model="form.name"
+    <form @submit.prevent="validateUser">
+      <section class="section">
+        <div class="columns">
+          <div class="column is-4 is-offset-4">
+            <div class="field">
+              <label class="label">Email</label>
+              <div class="control has-icons-left has-icons-right">
+                <input
+                  class="input"
+                  :class="getValidationClass('email')"
+                  v-on:keyup="keyEvtTriggered = true"
+                  type="email"
+                  name="email"
+                  id="email"
+                  value="hello@"
+                  v-model="form.email"
                   :disabled="sending"
                 />
-                <span class="md-error" v-if="!$v.form.name.required"
-                  >The name is required</span
-                >
-                <span class="md-error" v-else-if="!$v.form.name.minlength"
-                  >Invalid name</span
-                >
-              </md-field>
+                <span class="icon is-small is-left">
+                  <i class="fa fa-envelope"></i>
+                </span>
+                <span class="icon is-small is-right">
+                  <i class="fa fa-check"></i>
+                </span>
+              </div>
+              <p
+                class="help is-danger"
+                v-if="
+                  (!$v.form.email.required || !$v.form.email.email) &&
+                    keyEvtTriggered
+                "
+              >
+                This email is invalid
+              </p>
+              <p class="help is-danger" v-else-if="!keyEvtTriggered"></p>
+              <p class="help is-success" v-else>This email is valid</p>
             </div>
 
-            <div class="md-layout-item md-small-size-100">
-              <md-field :class="getValidationClass('surname')">
-                <label for="surname">Surname</label>
-                <md-input
-                  name="surname"
-                  id="surname"
-                  autocomplete="family-name"
-                  v-model="form.surname"
+            <div class="field">
+              <label class="label">Username</label>
+              <div class="control has-icons-left has-icons-right">
+                <input
+                  class="input"
+                  :class="getValidationClass('username')"
+                  v-on:keyup="keyEvtTriggered = true"
+                  type="text"
+                  name="username"
+                  id="username"
+                  value="form.email"
+                  v-model="form.username"
                   :disabled="sending"
                 />
-                <span class="md-error" v-if="!$v.form.surname.required"
-                  >The surname is required</span
-                >
-                <span class="md-error" v-else-if="!$v.form.surname.minlength"
-                  >Invalid surname</span
-                >
-              </md-field>
+                <span class="icon is-small is-left">
+                  <i class="fa fa-user"></i>
+                </span>
+                <span class="icon is-small is-right">
+                  <i class="fa fa-check"></i>
+                </span>
+              </div>
+              <p
+                class="help is-danger"
+                v-if="!$v.form.username.required && keyEvtTriggered"
+              >
+                Username is required
+              </p>
+              <p
+                class="help is-danger"
+                v-else-if="!$v.form.username.minLength && keyEvtTriggered"
+              >
+                Username must be at least 3 chars lenght
+              </p>
+              <p class="help is-danger" v-else-if="!keyEvtTriggered"></p>
+              <p class="help is-success" v-else>This username is valid</p>
             </div>
-          </div>
 
-          <md-field :class="getValidationClass('email')">
-            <label for="email">Email</label>
-            <md-input
-              type="email"
-              name="email"
-              id="email"
-              autocomplete="email"
-              v-model="form.email"
-              :disabled="sending"
-            />
-            <span class="md-error" v-if="!$v.form.email.required"
-              >The email is required</span
-            >
-            <span class="md-error" v-else-if="!$v.form.email.email"
-              >Invalid email</span
-            >
-          </md-field>
-
-          <md-field :class="getValidationClass('username')">
-            <label for="username">Username</label>
-            <md-input
-              name="username"
-              id="username"
-              v-model="form.username"
-              :disabled="sending"
-            />
-            <span class="md-error" v-if="!$v.form.username.required"
-              >The username is required</span
-            >
-            <span class="md-error" v-else-if="!$v.form.username.minlength"
-              >Invalid username</span
-            >
-          </md-field>
-
-          <div class="md-layout md-gutter">
-            <div class="md-layout-item md-small-size-100">
-              <md-field :class="getValidationClass('password')">
-                <label for="password">Password</label>
-                <md-input
-                  name="password"
+            <div class="field">
+              <label class="label">Password</label>
+              <div class="control has-icons-left has-icons-right">
+                <input
+                  class="input"
+                  :class="getValidationClass('password')"
+                  v-on:keyup="keyEvtTriggered = true"
                   type="password"
+                  name="password"
                   id="password"
+                  value="form.password"
                   v-model="form.password"
                   :disabled="sending"
                 />
-                <span class="md-error" v-if="!$v.form.password.required"
-                  >The password is required</span
-                >
-                <span class="md-error" v-else-if="!$v.form.password.minlength"
-                  >Password should contain minimum 10 charecters</span
-                >
-              </md-field>
+                <span class="icon is-small is-left">
+                  <i class="fa fa-key"></i>
+                </span>
+                <span class="icon is-small is-right">
+                  <i class="fa fa-check"></i>
+                </span>
+              </div>
+              <p
+                class="help is-danger"
+                v-if="!$v.form.password.required && keyEvtTriggered"
+              >
+                Password is required
+              </p>
+              <p
+                class="help is-danger"
+                v-else-if="!$v.form.password.minLength && keyEvtTriggered"
+              >
+                Password must be at least 10 chars lenght
+              </p>
+              <p class="help is-danger" v-else-if="!keyEvtTriggered"></p>
+              <p class="help is-success" v-else>This password is valid</p>
             </div>
 
-            <div class="md-layout-item md-small-size-100">
-              <md-field :class="getValidationClass('password')">
-                <label for="cpassword">Confirm Password</label>
-                <md-input
-                  name="cpassword"
+            <div class="field">
+              <label class="label">Confirm password</label>
+              <div class="control has-icons-left has-icons-right">
+                <input
+                  class="input"
+                  :class="getValidationClass('cpassword')"
+                  v-on:keyup="keyEvtTriggered = true"
                   type="password"
+                  name="cpassword"
                   id="cpassword"
+                  value="form.cpassword"
                   v-model="form.cpassword"
                   :disabled="sending"
                 />
-                <span class="md-error" v-if="!$v.form.cpassword.required"
-                  >The confirm password is required</span
-                >
-                <span class="md-error" v-else-if="!$v.form.cpassword.minlength"
-                  >Confirm Password should contain minimum 10 charecters</span
-                >
-              </md-field>
+                <span class="icon is-small is-left">
+                  <i class="fa fa-key"></i>
+                </span>
+                <span class="icon is-small is-right">
+                  <i class="fa fa-check"></i>
+                </span>
+              </div>
+              <p
+                class="help is-danger"
+                v-if="!$v.form.cpassword.required && keyEvtTriggered"
+              >
+                Confirm password is required
+              </p>
+              <p
+                class="help is-danger"
+                v-else-if="!$v.form.cpassword.sameAsPassword && keyEvtTriggered"
+              >
+                Passwords must match
+              </p>
+              <p class="help is-danger" v-else-if="!keyEvtTriggered"></p>
+              <p class="help is-success" v-else>Password confirmed</p>
+            </div>
+
+            <div class="field is-grouped">
+              <div class="control">
+                <button class="button is-link" :disabled="$v.$invalid">
+                  Register
+                </button>
+              </div>
             </div>
           </div>
-        </md-card-content>
-
-        <md-progress-bar md-mode="indeterminate" v-if="sending" />
-
-        <md-card-actions>
-          <md-button type="submit" class="md-primary" :disabled="sending"
-            >Submit</md-button
-          >
-        </md-card-actions>
-      </md-card>
-
-      <md-snackbar :md-active.sync="userSaved"
-        >The user {{ lastUser }} was saved with success!</md-snackbar
-      >
+        </div>
+      </section>
     </form>
   </div>
 </template>
 
 <script>
 import { validationMixin } from "vuelidate";
-import {
-  required,
-  email,
-  minLength
-  // maxLength,
-  // password
-} from "vuelidate/lib/validators";
+import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
 import router from "../router";
 
 import levyService from "@/services/levyService";
@@ -156,9 +175,8 @@ export default {
   mixins: [validationMixin],
   data() {
     return {
+      keyEvtTriggered: false,
       form: {
-        name: null,
-        surname: null,
         email: null,
         username: null,
         password: null,
@@ -167,26 +185,11 @@ export default {
       userSaved: false,
       sending: false,
       lastUser: null,
-      formFieldNames: [
-        "name",
-        "surname",
-        "email",
-        "username",
-        "password",
-        "cpassword"
-      ]
+      formFieldNames: ["email", "username", "password", "cpassword"]
     };
   },
   validations: {
     form: {
-      name: {
-        required,
-        minLength: minLength(3)
-      },
-      surname: {
-        required,
-        minLength: minLength(3)
-      },
       email: {
         required,
         email
@@ -201,21 +204,48 @@ export default {
       },
       cpassword: {
         required,
-        minLength: minLength(10)
+        sameAsPassword: sameAs("password")
       }
     }
   },
   methods: {
     getValidationClass(fieldName) {
       const field = this.$v.form[fieldName];
-      if (field) {
-        return {
-          "md-invalid": field.$invalid && field.$dirty
-        };
+      let inDanger = field.$invalid || field.$dirty;
+      switch (field) {
+        case "username":
+          inDanger =
+            (this.$v.form.username.required ||
+              this.$v.form.username.minLength) &&
+            inDanger;
+          break;
+        case "email":
+          inDanger =
+            (this.$v.form.email.required || this.$v.form.email.email) &&
+            inDanger;
+          break;
+        case "password":
+          inDanger =
+            (this.$v.form.password.required ||
+              this.$v.form.password.minLength) &&
+            inDanger;
+          break;
+        case "cpassword":
+          inDanger =
+            (this.$v.form.cpassword.required ||
+              this.$v.form.cpassword.sameAsPassword) &&
+            inDanger;
+          break;
       }
+      return inDanger && this.keyEvtTriggered
+        ? { "is-danger": true }
+        : this.keyEvtTriggered
+        ? { "is-success": true }
+        : {};
     },
     clearForm() {
       this.$v.$reset();
+      this.keyEvtTriggered = false;
       this.formFieldNames.forEach(fieldName => {
         this.form[fieldName] = null;
       });
@@ -248,9 +278,7 @@ export default {
     },
 
     validateUser() {
-      this.formFieldNames.forEach(fname => {
-          this.$v.form[fname].$touch();
-      });
+      this.$v.$touch();
       if (!this.$v.$isvalid) {
         this.saveUser();
       }
@@ -259,17 +287,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.md-progress-bar {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-}
-.jc-center {
-  justify-content: center;
-}
-.overflow-x {
-  overflow-x: hidden;
-}
-</style>
+<style lang="scss" scoped></style>
