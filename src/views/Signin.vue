@@ -1,58 +1,112 @@
 <template>
   <div>
-    <h2>Login</h2>
+      <h1 class="title"> Sign In </h1>
+      <a  href="/signup"> or create an account </a>
     <form @submit.prevent="handleSubmit">
-      <div class="form-group">
-        <label for="username">Username</label>
-        <input
-          type="text"
-          v-model="username"
-          name="username"
-          class="form-control"
-          :class="{ 'is-invalid': submitted && !username }"
-        />
-        <div v-show="submitted && !username" class="invalid-feedback">
-          Username is required
-        </div>
+    
+       <div class="field">
+              <label class="label">Username</label>
+              <div class="control has-icons-left has-icons-right">
+                <input
+                  class="input is-rounded"
+                  :class="getValidationClass('username')"
+                  type="text"
+                  name="username"
+                  id="username"
+                  value="form.username"
+                  v-model="form.username"
+                  :disabled="sending"
+                  v-on:keyup="keyEvtTriggered = true"
+                />
+                <span class="icon is-small is-left">
+                  <i class="fa fa-user"></i>
+                </span>
+              </div>
+              <p
+                class="help is-danger"
+                v-if="!$v.form.username.required && keyEvtTriggered"
+              >
+                Username is required
+              </p>
+              <p class="help is-success" v-else></p>
       </div>
-      <div class="form-group">
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          v-model="password"
-          name="password"
-          class="form-control"
-          :class="{ 'is-invalid': submitted && !password }"
-        />
-        <div v-show="submitted && !password" class="invalid-feedback">
-          Password is required
-        </div>
+
+       <div class="field">
+              <label class="label">Password</label>
+              <div class="control has-icons-left has-icons-right">
+                <input
+                  class="input is-rounded"
+                  :class="getValidationClass('password')"
+                  type="password"
+                  name="password"
+                  id="password"
+                  value="form.password"
+                  v-model="form.password"
+                  :disabled="sending"
+                  v-on:keyup="keyEvtTriggered = true"
+                />
+                <span class="icon is-small is-left">
+                  <i class="fa fa-key"></i>
+                </span>
+              </div>
+              <p
+                class="help is-danger"
+                v-if="!$v.form.password.required && keyEvtTriggered"
+              >
+                Password is required
+              </p>
+              <p class="help is-success" v-else></p>
       </div>
-      <div class="form-group">
-        <button class="btn btn-primary" :disabled="status.loggingIn">
-          Login
-        </button>
-        <img
-          v-show="status.loggingIn"
-          src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
-        />
-        <router-link to="/singup" class="btn btn-link">Register</router-link>
-      </div>
+       <div class="field is-grouped-centered">
+            <p>
+              <a class="btn-control">
+                  <button class="button is-link" :disabled="$v.$invalid">
+                  Signin
+                </button>
+                </a>
+            </p>
+              <p class="btn-control">
+                 <a>
+                 <button class="button is-light">
+                  Sign in with Google
+                </button>
+                </a>
+              </p>
+               
+            </div>
+
     </form>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from "vuex";
+import { validationMixin } from "vuelidate";
+import { required } from "vuelidate/lib/validators";
 
 export default {
   name: "signin",
+  mixins: [validationMixin],
   data() {
     return {
-      username: "",
-      password: "",
-      submitted: false
+      form: {
+        username: null,
+        password: null,
+      },
+      keyEvtTriggered: false,
+      submitted: false,
+      sending: false,
     };
+  },
+  validations: {
+     form: {
+        username: {
+          required,
+        },
+        password: {
+          required,
+        },
+      }
   },
   computed: {
     ...mapState("account", ["status"])
@@ -62,15 +116,44 @@ export default {
   },
   methods: {
     ...mapActions("account", ["login", "logout"]),
+     getValidationClass(fieldName) {
+        const field = this.$v.form[fieldName];
+        let isDanger = !field.required && (field.$invalid || field.$dirty);
+        return  isDanger && this.keyEvtTriggered
+        ? { "is-danger": true }
+        : this.keyEvtTriggered
+        ? { "is-success": true }
+        : {};
+     },
     handleSubmit() {
-      this.submitted = true;
-      const { username, password } = this;
-      if (username && password) {
-        this.login({ username, password });
+      this.sending = true;
+       this.$v.$touch();
+      if (!this.$v.$isvalid) {
+          this.submitted = true;
+          const { username, password } = this;
+          if (username && password) {
+            this.login({ username, password });
+          }
       }
+      this.sending = false;
+     
     }
   }
-};
+}
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+  .title{
+    padding-left: 15%;
+  }
+  .input {
+    width: 40%;
+  }
+  .button {
+    width: 40%;
+  }
+  .btn-control {
+    padding-top: 10px;
+  }
+ 
+</style>

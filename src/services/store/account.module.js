@@ -1,4 +1,5 @@
-import { router, levyService } from "..";
+import { levyService } from "../api";
+import { router } from "../router";
 
 const user = JSON.parse(localStorage.getItem("user"));
 
@@ -22,7 +23,7 @@ const actions = {
     );
   },
   logout({ commit }) {
-    this.levyService.logout();
+    levyService.signOut();
     commit("logout");
   },
   register({ dispatch, commit }, user) {
@@ -73,6 +74,7 @@ const mutations = {
 };
 
 export const account = {
+  namespaced: true,
   state,
   getters,
   actions,

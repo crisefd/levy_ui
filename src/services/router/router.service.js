@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Router from "vue-router";
-import { Signup, Signin, Home } from "../../views";
+import Signup from "../../views/Signup.vue";
+import Signin from "../../views/Signin.vue";
+import Home from "../../views/Home.vue";
 
 Vue.use(Router);
 
@@ -8,7 +10,7 @@ export const router = new Router({
   mode: "history",
   routes: [
     { path: "/", component: Home },
-    { path: "/singin", component: Signin },
+    { path: "/signin", component: Signin },
     { path: "/signup", component: Signup },
 
     // otherwise redirect to home
