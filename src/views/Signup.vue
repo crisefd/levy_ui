@@ -166,12 +166,10 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
-import router from "../router";
-
-import levyService from "@/services/levyService";
+import { router, levyService } from "../services";
 
 export default {
-  name: "SignupForm",
+  name: "Signup",
   mixins: [validationMixin],
   data() {
     return {
