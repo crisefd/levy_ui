@@ -12,7 +12,8 @@ export const levyService = {
     const url = `${baseUrl}/${apiVersion}/users/signin`;
     return request("POST", url, null, { email, password });
   },
-  signOut(){
+
+  signOut() {
     console.log("Signout not implemented yet");
   }
 };

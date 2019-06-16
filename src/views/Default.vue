@@ -1,15 +1,15 @@
 <template>
-  <div class="home"></div>
+  <div class="default"></div>
 </template>
 
 <script>
 import { router } from "../services/";
 
 export default {
-  name: "home",
+  name: "default",
   components: {},
   created() {
-    router.push({ name: "signin" });
+    router.push({ name: "dashboard" });
   }
 };
 </script>

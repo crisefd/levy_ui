@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
-import { alert } from './alert.module';
+import { alert } from "./alert.module";
 import { account } from "./account.module";
 // import { users } from './users.module';
 
@@ -11,6 +11,6 @@ export const store = new Vuex.Store({
   modules: {
     account,
     // users,
-    alert,
+    alert
   }
 });

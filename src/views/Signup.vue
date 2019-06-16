@@ -4,11 +4,12 @@
       <section class="section">
         <div class="columns">
           <div class="column is-4 is-offset-4">
+            <h1 class="title">Sign up</h1>
             <div class="field">
               <label class="label">Email</label>
               <div class="control has-icons-left has-icons-right">
                 <input
-                  class="input"
+                  class="input is-rounded"
                   :class="getValidationClass('email')"
                   v-on:keyup="keyEvtTriggered = true"
                   type="email"
@@ -42,7 +43,7 @@
               <label class="label">Username</label>
               <div class="control has-icons-left has-icons-right">
                 <input
-                  class="input"
+                  class="input is-rounded"
                   :class="getValidationClass('username')"
                   v-on:keyup="keyEvtTriggered = true"
                   type="text"
@@ -79,7 +80,7 @@
               <label class="label">Password</label>
               <div class="control has-icons-left has-icons-right">
                 <input
-                  class="input"
+                  class="input is-rounded"
                   :class="getValidationClass('password')"
                   v-on:keyup="keyEvtTriggered = true"
                   type="password"
@@ -116,7 +117,7 @@
               <label class="label">Confirm password</label>
               <div class="control has-icons-left has-icons-right">
                 <input
-                  class="input"
+                  class="input is-rounded"
                   :class="getValidationClass('cpassword')"
                   v-on:keyup="keyEvtTriggered = true"
                   type="password"
@@ -149,10 +150,16 @@
               <p class="help is-success" v-else>Password confirmed</p>
             </div>
 
-            <div class="field is-grouped">
+            <div class="field">
               <div class="control">
                 <button class="button is-link" :disabled="$v.$invalid">
-                  Register
+                  <span class="label"> Sign up </span>
+                </button>
+              </div>
+              <div class="control">
+                <button class="button is-light">
+                  <span class="fab fa-google"></span>
+                  <span class="label"> Sign up with Google </span>
                 </button>
               </div>
             </div>
@@ -248,7 +255,7 @@ export default {
         this.form[fieldName] = null;
       });
       window.setTimeout(() => {
-        router.push({ name: "home" });
+        router.push({ name: "default" });
       }, 2000);
     },
     saveUser() {
@@ -262,12 +269,13 @@ export default {
       levyService.signUp(userData).subscribe({
         next: response => {
           console.log("Success: ", response);
+          this.sending = false;
+          this.clearForm();
+          this.lastUser = userData.username;
+          this.userSaved = true;
           window.setTimeout(() => {
-            this.sending = false;
-            this.clearForm();
-            this.lastUser = userData.username;
-            this.userSaved = true;
-          }, 1500);
+              router.push({name: "signin"});
+          }, 2000);
         },
         error: error => {
           console.error("Unexpected error: " + error);
@@ -285,4 +293,16 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+button {
+  padding-bottom: 10px;
+  margin-top: 10px;
+  width: 100%;
+  span.label {
+    padding-left: 12px;
+  }
+}
+.title {
+  text-align: center;
+}
+</style>

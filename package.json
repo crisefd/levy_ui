@@ -49,7 +49,7 @@
     ],
     "rules": {
       "no-console": 0,
-      "vue/no-unused-vars": "warning"
+      "no-unused-vars": 1
     },
     "parserOptions": {
       "parser": "babel-eslint"
