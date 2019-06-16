@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form @submit.prevent="validateUser">
+    <form @submit.prevent="handleSubmit">
       <section class="section">
         <div class="columns">
           <div class="column is-4 is-offset-4">
@@ -166,12 +166,10 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
-import router from "../router";
-
-import levyService from "@/services/levyService";
+import { router, levyService } from "../services";
 
 export default {
-  name: "SignupForm",
+  name: "Signup",
   mixins: [validationMixin],
   data() {
     return {
@@ -211,33 +209,33 @@ export default {
   methods: {
     getValidationClass(fieldName) {
       const field = this.$v.form[fieldName];
-      let inDanger = field.$invalid || field.$dirty;
+      let isDanger = field.$invalid || field.$dirty;
       switch (field) {
         case "username":
-          inDanger =
+          isDanger =
             (this.$v.form.username.required ||
               this.$v.form.username.minLength) &&
-            inDanger;
+            isDanger;
           break;
         case "email":
-          inDanger =
+          isDanger =
             (this.$v.form.email.required || this.$v.form.email.email) &&
-            inDanger;
+            isDanger;
           break;
         case "password":
-          inDanger =
+          isDanger =
             (this.$v.form.password.required ||
               this.$v.form.password.minLength) &&
-            inDanger;
+            isDanger;
           break;
         case "cpassword":
-          inDanger =
+          isDanger =
             (this.$v.form.cpassword.required ||
               this.$v.form.cpassword.sameAsPassword) &&
-            inDanger;
+            isDanger;
           break;
       }
-      return inDanger && this.keyEvtTriggered
+      return isDanger && this.keyEvtTriggered
         ? { "is-danger": true }
         : this.keyEvtTriggered
         ? { "is-success": true }
@@ -277,7 +275,7 @@ export default {
       });
     },
 
-    validateUser() {
+    handleSubmit() {
       this.$v.$touch();
       if (!this.$v.$isvalid) {
         this.saveUser();

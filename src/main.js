@@ -1,7 +1,6 @@
 import Vue from "vue";
 import App from "./App.vue";
-import router from "./router";
-import store from "./store";
+import { router, store } from "./services";
 import "./registerServiceWorker";
 import VueRx from "vue-rx";
 import Buefy from "buefy";

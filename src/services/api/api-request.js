@@ -1,12 +1,13 @@
 import { Observable } from "rxjs";
+import { authHeader } from "./auth-header";
 
 const fetchMode = process.env.VUE_APP_FETCH_MODE;
 
-export default function request(method, url, qParams, payload) {
+export function request(method, url, qParams, payload) {
   const body =
     method === "GET" ? URLSearchParams(qParams) : JSON.stringify(payload);
   const parameters = {
-    headers: { "Content-Type": "application/json" },
+    headers: { ...authHeader(), ...{ "Content-Type": "application/json" } },
     method: method,
     mode: fetchMode,
     body: body,
