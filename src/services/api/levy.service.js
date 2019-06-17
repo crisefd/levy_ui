@@ -5,7 +5,7 @@ import { request } from "./api-request";
 export const levyService = {
   signUp(userData, apiVersion = "v1") {
     const url = `${baseUrl}/${apiVersion}/users/signup`;
-    return request("POST", url, null, userData);
+    return request("POST", url, null, {user: userData});
   },
 
   signIn(email, password, apiVersion = "v1") {

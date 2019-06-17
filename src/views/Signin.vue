@@ -4,7 +4,7 @@
       <section class="section">
         <div class="columns">
           <div class="column is-4 is-offset-4">
-            <h1 class="title">Sign In</h1>
+            <h1 class="title">Sign in</h1>
             <a href="/signup">or create an account</a>
             <div class="field">
               <label class="label">Username (or email)</label>
@@ -81,6 +81,7 @@ import { validationMixin } from "vuelidate";
 import { required } from "vuelidate/lib/validators";
 
 export default {
+  title: "Sign in",
   name: "signin",
   mixins: [validationMixin],
   data() {

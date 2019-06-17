@@ -31,7 +31,7 @@
                 v-if="
                   (!$v.form.email.required || !$v.form.email.email) &&
                     keyEvtTriggered
-                "
+                  "
               >
                 This email is invalid
               </p>
@@ -49,7 +49,6 @@
                   type="text"
                   name="username"
                   id="username"
-                  value="form.email"
                   v-model="form.username"
                   :disabled="sending"
                 />
@@ -62,13 +61,7 @@
               </div>
               <p
                 class="help is-danger"
-                v-if="!$v.form.username.required && keyEvtTriggered"
-              >
-                Username is required
-              </p>
-              <p
-                class="help is-danger"
-                v-else-if="!$v.form.username.minLength && keyEvtTriggered"
+                v-if="!$v.form.username.minLength && keyEvtTriggered"
               >
                 Username must be at least 3 chars lenght
               </p>
@@ -176,6 +169,7 @@ import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
 import { router, levyService } from "../services";
 
 export default {
+  title: "Sign up",
   name: "Signup",
   mixins: [validationMixin],
   data() {
@@ -200,7 +194,6 @@ export default {
         email
       },
       username: {
-        required,
         minLength: minLength(3)
       },
       password: {
@@ -266,6 +259,7 @@ export default {
           userData[fieldName] = this.form[fieldName];
         }
       });
+      userData['username'] = userData['username'] ? userData['username'] : userData['email'];
       levyService.signUp(userData).subscribe({
         next: response => {
           console.log("Success: ", response);

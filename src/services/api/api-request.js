@@ -12,16 +12,17 @@ export function request(method, url, qParams, payload) {
   const body =
     method === "GET" ? URLSearchParams(qParams) : JSON.stringify(payload);
   const parameters = {
-    headers: { ...authHeader(), ...{ "Content-Type": "application/json" } },
+    headers: { ...authHeader(), ...{ 'Content-Type': 'application/json' } },
     method: method,
     mode: fetchMode,
     body: body,
     cache: "default"
   };
+  console.log("parameters: ", parameters);
   return Observable.create(observer => {
     fetch(url, parameters)
       .then(response => {
-        observer.next(response.json());
+        observer.next(response);
         observer.complete();
       })
       .catch(error => {
