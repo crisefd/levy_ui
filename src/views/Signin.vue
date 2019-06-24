@@ -127,7 +127,7 @@ export default {
       this.$v.$touch();
       if (!this.$v.$isvalid) {
         this.submitted = true;
-        const { username, password } = this;
+        const { username, password } = this.form;
         if (username && password) {
           this.login({ username, password });
         }

@@ -11,9 +11,11 @@ const actions = {
   login({ dispatch, commit }, { username, password }) {
     commit("loginRequest", { username });
 
-    levyService.signin(username, password).subscribe(
+    levyService.signIn(username, password).subscribe(
       user => {
         commit("loginSuccess", user);
+        console.log("logIn ", user);
+        localStorage.setItem("user", JSON.stringify(user));
         router.push("/");
       },
       error => {
