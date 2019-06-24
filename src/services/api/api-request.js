@@ -7,9 +7,9 @@ const fetchMode = process.env.VUE_APP_FETCH_MODE;
  * Wrapper function around the fetch API. It passes the neccesary
  * paramenters to fetch but it returns it as an Observable
  */
-export function request(method, url, qParams, payload) {
+export function request({method, url, qParams, payload}) {
   const body =
-    method === "GET" ? URLSearchParams(qParams) : JSON.stringify(payload);
+    method === "GET" && qParams ? new URLSearchParams(qParams) : JSON.stringify(payload);
   const headers = new Headers({
     ...authHeader(),
     ...{"content-type": "application/json"}
@@ -18,9 +18,12 @@ export function request(method, url, qParams, payload) {
     headers: headers,
     method: method,
     mode: fetchMode,
-    body: body,
     cache: "default"
   };
+  if (method !== "GET" && method !== "HEAD") {
+    parameters['body'] = body;
+  }
+  console.log("parameters: ", parameters);
   const request = new Request(url, parameters);
   return Observable.create(observer => {
     fetch(request)

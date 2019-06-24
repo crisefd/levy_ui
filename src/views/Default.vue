@@ -9,7 +9,7 @@ export default {
   name: "default",
   components: {},
   created() {
-    router.push({ name: "dashboard" });
+    router.push("/dashboard");
   }
 };
 </script>

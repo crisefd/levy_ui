@@ -5,8 +5,16 @@
 </template>
 
 <script>
+import { levyService } from "@/services";
 export default {
-  name: "dashboard"
+  name: "dashboard",
+  created() {
+    levyService
+    .listUsers()
+    .subscribe(users => {
+      console.log("USERS => ", users);
+    })
+  }
 };
 </script>
 

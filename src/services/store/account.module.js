@@ -25,7 +25,8 @@ const actions = {
     );
   },
   logout({ commit }) {
-    levyService.signOut();
+    localStorage.removeItem("user");
+    router.push("/");
     commit("logout");
   },
   register({ dispatch, commit }, user) {

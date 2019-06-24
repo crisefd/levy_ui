@@ -5,15 +5,34 @@ import { request } from "./api-request";
 export const levyService = {
   signUp(userData, apiVersion = "v1") {
     const url = `${baseUrl}/${apiVersion}/users/signup`;
-    return request("POST", url, null, {user: userData});
+    const params = {
+      method: "POST",
+      url: url,
+      qParams: null,
+      payload: {user: userData}
+    };
+    return request(params);
   },
 
   signIn(email, password, apiVersion = "v1") {
     const url = `${baseUrl}/${apiVersion}/users/signin`;
-    return request("POST", url, null, { email, password });
+    const params = {
+      method: "POST",
+      url: url,
+      qParams: null,
+      payload: { email, password }
+    };
+    return request(params);
   },
 
-  signOut() {
-    console.log("Signout not implemented yet");
+  listUsers(apiVersion = "v1") {
+    const url = `${baseUrl}/${apiVersion}/users`;
+    const params = {
+      method: "GET",
+      url: url,
+      qParams: null,
+      payload: null
+    };
+    return request(params);
   }
 };
