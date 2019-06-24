@@ -19,7 +19,7 @@
                   v-model="form.username"
                   :disabled="sending"
                   v-on:keyup="keyEvtTriggered = true"
-                >
+                />
                 <span class="icon is-small is-left">
                   <i class="fa fa-user"></i>
                 </span>
@@ -44,7 +44,7 @@
                   v-model="form.password"
                   :disabled="sending"
                   v-on:keyup="keyEvtTriggered = true"
-                >
+                />
                 <span class="icon is-small is-left">
                   <i class="fa fa-key"></i>
                 </span>

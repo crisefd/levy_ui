@@ -11,16 +11,21 @@ const fetchMode = process.env.VUE_APP_FETCH_MODE;
 export function request(method, url, qParams, payload) {
   const body =
     method === "GET" ? URLSearchParams(qParams) : JSON.stringify(payload);
+  const headers = new Headers({
+    ...authHeader(),
+    ...{"content-type": "application/json"}
+  });
   const parameters = {
-    headers: { ...authHeader(), ...{ 'Content-Type': 'application/json' } },
+    headers: headers,
     method: method,
     mode: fetchMode,
     body: body,
     cache: "default"
   };
-  console.log("parameters: ", parameters);
+  const request = new Request(url, parameters);
+  console.log("request: ", request);
   return Observable.create(observer => {
-    fetch(url, parameters)
+    fetch(request)
       .then(response => {
         observer.next(response);
         observer.complete();
