@@ -1,19 +1,10 @@
 <template>
-  <div class="jumbotron" id="app">
+  <div  id="app">
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
     />
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-6 offset-sm-3">
-          <div v-if="alert.message" :class="`alert ${alert.type}`">
-            {{ alert.message }}
-          </div>
-          <router-view></router-view>
-        </div>
-      </div>
-    </div>
+   <router-view></router-view>
   </div>
 </template>
 
