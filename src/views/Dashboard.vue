@@ -33,9 +33,9 @@
           <a class="navbar-item">
             About
           </a>
-          <a class="navbar-item">
+          <!-- <a class="navbar-item">
             Jobs
-          </a>
+          </a> -->
           <a class="navbar-item">
             Contact
           </a>
@@ -51,10 +51,7 @@
       <div class="navbar-item">
         <div class="buttons">
           <a class="button is-primary">
-            <strong>Sign up</strong>
-          </a>
-          <a class="button is-light">
-            Log out
+            <strong>Log out</strong>
           </a>
         </div>
       </div>
@@ -71,34 +68,34 @@
           General
         </p>
         <ul class="menu-list">
-          <li><a class="is-active">Dashboard</a></li>
-          <li><a>Customers</a></li>
+          <li><a class="is-active">Overview</a></li>
+          <!-- <li><a>Your Clubs</a></li> -->
         </ul>
         <p class="menu-label">
           Administration
         </p>
         <ul class="menu-list">
-          <li><a>Team Settings</a></li>
+          <li><a>Account Settings</a></li>
           <li>
-            <a class="">Manage Your Team</a>
+            <a class="">Club Managing</a>
             <ul>
-              <li><a>Members</a></li>
-              <li><a>Plugins</a></li>
-              <li><a>Add a member</a></li>
+              <li><a>Books</a></li>
+              <li><a>Meetings</a></li>
+              <li><a>Add members</a></li>
             </ul>
           </li>
-          <li><a>Invitations</a></li>
+          <!-- <li><a>Invitations</a></li>
           <li><a>Cloud Storage Environment Settings</a></li>
-          <li><a>Authentication</a></li>
+          <li><a>Authentication</a></li> -->
         </ul>
-        <p class="menu-label">
+        <!-- <p class="menu-label">
           Transactions
         </p>
         <ul class="menu-list">
           <li><a>Payments</a></li>
           <li><a>Transfers</a></li>
           <li><a>Balance</a></li>
-        </ul>
+        </ul> -->
       </nav>
     </aside>
     
@@ -106,13 +103,13 @@
       <div class="level">
         <div class="level-left">
           <div class="level-item">
-            <div class="title">Dashboard</div>
+            <div class="title">Overview</div>
           </div>
         </div>
         <div class="level-right">
           <div class="level-item">
             <button type="button" class="button is-small">
-              March 8, 2017 - April 6, 2017
+             {{dateRange}}
             </button>
           </div>
         </div>
@@ -286,12 +283,26 @@ import { levyService } from "@/services";
 export default {
   name: "dashboard",
   title: "Dashboard",
+  data() {
+    return {
+
+    }
+  },
   created() {
-    levyService
-    .listUsers()
-    .subscribe(users => {
-      console.log("USERS => ", users);
-    })
+
+    // levyService
+    // .listUsers()
+    // .subscribe(users => {
+    //   console.log("USERS => ", users);
+    // })
+  },
+  computed: {
+    dateRange: () => {
+      const date = new Date(), y = date.getFullYear(), m = date.getMonth();
+      const lower = new Date(y, m, 1).toDateString();
+      const upper = new Date(y, m + 1, 0).toDateString();
+      return `${lower} - ${upper}`;
+    }
   }
 };
 </script>
