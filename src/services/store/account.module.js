@@ -6,12 +6,14 @@ const user = JSON.parse(localStorage.getItem("user"));
 const state = user
   ? { status: { loggedIn: true }, user }
   : { status: {}, user: null };
-const getters = {};
+const getters = {
+  loggedIn: state => (state.status.hasOwnProperty("loggedIn")
+    && state.status["loggedIn"])
+};
 const actions = {
   login({ dispatch, commit }, { username, password }) {
     commit("loginRequest", { username });
-
-    levyService.signIn(username, password).subscribe(
+    levyService.signIn(username, password).subcribe(
       user => {
         commit("loginSuccess", user);
         console.log("logIn ", user);
@@ -42,7 +44,7 @@ const actions = {
       },
       error => {
         commit("registerFailure", error);
-        dispatch("alert/error", error, { root: true });
+        dispatch("alert/error", "Invalid username or password", { root: true });
       }
     );
   }

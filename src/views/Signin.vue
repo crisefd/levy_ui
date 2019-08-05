@@ -4,6 +4,7 @@
       <section class="section">
         <div class="columns">
           <div class="column is-4 is-offset-4">
+            <flash-message></flash-message>
             <h1 class="title">Sign in</h1>
             <a href="/signup">or create an account</a>
             <div class="field">
@@ -58,13 +59,13 @@
             <div class="field">
               <div class="control">
                 <button class="button is-link" :disabled="$v.$invalid">
-                  <span class="label"> Sign in </span>
+                  <span class="label">Sign in</span>
                 </button>
               </div>
               <div class="control">
                 <button class="button is-light">
                   <span class="fab fa-google"></span>
-                  <span class="label"> Sign in with Google </span>
+                  <span class="label">Sign in with Google</span>
                 </button>
               </div>
             </div>
@@ -76,10 +77,10 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 import { validationMixin } from "vuelidate";
 import { required } from "vuelidate/lib/validators";
-
+import { store } from "../services";
 export default {
   title: "Sign in",
   name: "signin",
@@ -113,6 +114,7 @@ export default {
   },
   methods: {
     ...mapActions("account", ["login", "logout"]),
+    ...mapGetters("account", ["loggedIn"]),
     getValidationClass(fieldName) {
       const field = this.$v.form[fieldName];
       let isDanger = !field.required && (field.$invalid || field.$dirty);
@@ -129,7 +131,7 @@ export default {
         this.submitted = true;
         const { username, password } = this.form;
         if (username && password) {
-          this.login({ username, password });
+           this.login({ username, password });
         }
       }
       this.sending = false;

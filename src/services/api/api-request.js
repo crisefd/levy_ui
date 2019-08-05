@@ -23,7 +23,7 @@ export function request({method, url, qParams, payload}) {
   if (method !== "GET" && method !== "HEAD") {
     parameters['body'] = body;
   }
-  console.log("parameters: ", parameters);
+ // console.log("parameters: ", parameters);
   const request = new Request(url, parameters);
   return Observable.create(observer => {
     fetch(request)
