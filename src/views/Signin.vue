@@ -4,6 +4,11 @@
       <section class="section">
         <div class="columns">
           <div class="column is-4 is-offset-4">
+            <div
+              v-if="alert && alert.message  && createFlashMessage(alert.message)"
+            >
+              <flash-message></flash-message>
+            </div>
             <h1 class="title">Sign in</h1>
             <a href="/signup">or create an account</a>
             <div class="field">
@@ -58,13 +63,13 @@
             <div class="field">
               <div class="control">
                 <button class="button is-link" :disabled="$v.$invalid">
-                  <span class="label"> Sign in </span>
+                  <span class="label">Sign in</span>
                 </button>
               </div>
               <div class="control">
                 <button class="button is-light">
                   <span class="fab fa-google"></span>
-                  <span class="label"> Sign in with Google </span>
+                  <span class="label">Sign in with Google</span>
                 </button>
               </div>
             </div>
@@ -79,6 +84,7 @@
 import { mapState, mapActions } from "vuex";
 import { validationMixin } from "vuelidate";
 import { required } from "vuelidate/lib/validators";
+import { setTimeout } from "timers";
 
 export default {
   title: "Sign in",
@@ -92,7 +98,8 @@ export default {
       },
       keyEvtTriggered: false,
       submitted: false,
-      sending: false
+      sending: false,
+      flashMessagePresent: false
     };
   },
   validations: {
@@ -106,13 +113,31 @@ export default {
     }
   },
   computed: {
-    ...mapState("account", ["status"])
+    ...mapState("account", ["status"]),
+    ...mapState({ alert: state => state.alert })
   },
   created() {
+    this.flashMessagePresent = false;
     this.logout();
   },
   methods: {
     ...mapActions("account", ["login", "logout"]),
+    ...mapActions({
+      clearAlert: "alert/clear"
+    }),
+    clearFlashMessages() {
+      this.clearAlert();
+       this.flashMessagePresent = false;
+    },
+    createFlashMessage(message) {
+      if (!this.flashMessagePresent) {
+          this.flashError(message, { messageOptions: {timeout: 2000}});
+          this.flashMessagePresent = true;
+          setTimeout(() => this.clearFlashMessages(), 2000);
+      }
+     
+      return true;
+    },
     getValidationClass(fieldName) {
       const field = this.$v.form[fieldName];
       let isDanger = !field.required && (field.$invalid || field.$dirty);

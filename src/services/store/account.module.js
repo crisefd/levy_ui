@@ -18,9 +18,9 @@ const actions = {
         localStorage.setItem("user", JSON.stringify(user));
         router.push("/");
       },
-      error => {
-        commit("loginFailure", error);
-        dispatch("alert/error", error, { root: true });
+      _ => {
+        commit("loginFailure", "Invalid username or password");
+        dispatch("alert/error", "Invalid username or password", { root: true });
       }
     );
   },
@@ -41,6 +41,7 @@ const actions = {
         });
       },
       error => {
+        console.error("Unexpected error: ", error);
         commit("registerFailure", error);
         dispatch("alert/error", error, { root: true });
       }
