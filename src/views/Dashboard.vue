@@ -79,9 +79,9 @@
           <li>
             <a class="">Club Managing</a>
             <ul>
-              <li><a>Books</a></li>
+              <li><a>Clubs</a></li>
               <li><a>Meetings</a></li>
-              <li><a>Add members</a></li>
+              <li><a>Books</a></li>
             </ul>
           </li>
           <!-- <li><a>Invitations</a></li>
@@ -279,7 +279,7 @@
 </template>
 
 <script>
-import { levyService } from "@/services";
+import { levyService, booksService } from "@/services";
 export default {
   name: "dashboard",
   title: "Dashboard",
